@@ -2,7 +2,7 @@
 
 ### 介绍
     
-    基于Canvas的签名组件。
+基于Canvas的签名组件。默认竖屏模式使用，如使用横屏模式，请开发者自行设置旋转角度或者宽高。
     
 ### 安装
 
@@ -17,7 +17,6 @@ app.use(Signature);
 ```
     
     
-## 代码演示
     
 ### 基础用法
 
@@ -105,7 +104,7 @@ export default {
 | type | 图片格式 | String | 'png'
 | un-support-tpl | 不支持Canvas情况下的展示文案 | String | '对不起，当前浏览器不支持Canvas，无法使用本控件！'
 
-## Event
+### Events
 
 | 字段 | 说明 | 回调参数 
 |----- | ----- | ----- 

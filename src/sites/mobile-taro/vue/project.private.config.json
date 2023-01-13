@@ -7,16 +7,17 @@
     "miniprogram": {
       "list": [
         {
-          "name": "business/pages/signature/index",
-          "pathName": "business/pages/signature/index",
+          "name": "exhibition/pages/imagepreview/index",
+          "pathName": "exhibition/pages/imagepreview/index",
           "query": "",
           "launchMode": "default",
           "scene": null
         },
         {
-          "name": "pages/index/index",
-          "pathName": "pages/index/index",
+          "name": "exhibition/pages/popover/index",
+          "pathName": "exhibition/pages/popover/index",
           "query": "",
+          "launchMode": "default",
           "scene": null
         },
         {
@@ -32,15 +33,15 @@
           "scene": null
         },
         {
-          "name": "business/pages/signature/index",
-          "pathName": "business/pages/signature/index",
+          "name": "exhibition/pages/ellipsis/index",
+          "pathName": "exhibition/pages/ellipsis/index",
           "query": "",
           "launchMode": "default",
           "scene": null
         },
         {
-          "name": "exhibition/pages/collapse/index",
-          "pathName": "exhibition/pages/collapse/index",
+          "name": "exhibition/pages/popover/index",
+          "pathName": "exhibition/pages/popover/index",
           "query": "",
           "launchMode": "default",
           "scene": null
@@ -62,5 +63,6 @@
       ]
     }
   },
-  "projectname": "vue"
+  "projectname": "vue",
+  "libVersion": "2.27.1"
 }

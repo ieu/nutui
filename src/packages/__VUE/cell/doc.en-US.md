@@ -192,14 +192,14 @@ You can center the left and right contents of the cell vertically through the 'c
 
 ## API
 
-### CellGroup Prop
+### CellGroup Props
 
 | Attribute | Description | Type   | Default |
 |-----------|-------------|--------|---------|
 | title     | Title       | String | -       |
 | desc      | Description | String | -       |
 
-### Cell Prop
+### Cell Props
 
 | Attribute               | Description                                                                                              | Type             | Default          |
 |-------------------------|----------------------------------------------------------------------------------------------------------|------------------|------------------|
@@ -208,8 +208,8 @@ You can center the left and right contents of the cell vertically through the 'c
 | desc                    | Description                                                                                              | String           | -                |
 | desc-text-align         | Right description text alignment [text-align](https://www.w3school.com.cn/cssref/pr_text_text-align.asp) | String           | right            |
 | is-link                 | Whether to show the right arrow and turn on click feedback                                               | Boolean          | false            |
-| icon                    | Left [icon name](#/icon) or image url                                                                    | String           | -                |
-| right-icon`v3.2.1`      | Right [icon name](#/icon) or image url                                                                   | String           | right            |
+| icon                    | Left [icon name](#/en-US/component/icon) or image url                                                                    | String           | -                |
+| right-icon`v3.2.1`      | Right [icon name](#/en-US/component/icon) or image url                                                                   | String           | right            |
 | round-radius            | Corner radius                                                                                            | Number           | 6px              |
 | url                     | Link URL                                                                                                 | String           | -                |
 | to                      | Target route of the link, same as to of vue-router                                                       | String ｜ Object | -                |
@@ -219,13 +219,13 @@ You can center the left and right contents of the cell vertically through the 'c
 | font-class-name`v3.2.1` | Custom icon font base class name                                                                         | String           | `nutui-iconfont` |
 | class-prefix`v3.2.1`    | Custom icon class name prefix for using custom icons                                                     | String           | `nut-icon`       |
 
-### Cell Event
+### Cell Events
 
 | Event | Description                  | Arguments   |
 |-------|------------------------------|-------------|
 | click | Emitted when cell is clicked | event:Event |
 
-## Cell Slots
+### Cell Slots
 
 | Name            | Description        |
 |-----------------|--------------------|
@@ -234,7 +234,7 @@ You can center the left and right contents of the cell vertically through the 'c
 | link            | Custom Right`link` |
 | title `v3.1.22` | Custom`title`slot  |
 
-## CellGroup Slots
+### CellGroup Slots
 
 | Name            | Description       |
 |-----------------|-------------------|

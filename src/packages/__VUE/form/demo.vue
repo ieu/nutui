@@ -57,7 +57,18 @@
       </nut-cell>
     </nut-form>
     <h2>{{ translate('title2') }}</h2>
-    <nut-form :model-value="formData" ref="ruleForm">
+    <nut-form
+      :model-value="formData"
+      :rules="{
+        name: [
+          {
+            message: '名称两个字以上',
+            validator: nameLengthValidator
+          }
+        ]
+      }"
+      ref="ruleForm"
+    >
       <nut-form-item
         :label="translate('name')"
         prop="name"
@@ -136,7 +147,13 @@
         <nut-range hidden-tag v-model="formData2.range"></nut-range>
       </nut-form-item>
       <nut-form-item :label="translate('uploader')">
-        <nut-uploader url="http://apiurl" v-model:file-list="formData2.defaultFileList" maximum="3" multiple>
+        <nut-uploader
+          url="http://apiurl"
+          accept="image/*"
+          v-model:file-list="formData2.defaultFileList"
+          maximum="3"
+          multiple
+        >
         </nut-uploader>
       </nut-form-item>
       <nut-form-item :label="translate('address')">
@@ -278,6 +295,7 @@ export default createDemo({
             if (valid) {
               console.log('success', dynamicForm);
             } else {
+              Toast.warn(errors[0].message);
               console.log('error submit!!', errors);
             }
           });
@@ -396,6 +414,7 @@ export default createDemo({
     const customRulePropValidator = (val: string, rule: FormItemRuleWithoutValidator) => {
       return (rule?.reg as RegExp).test(val);
     };
+    const nameLengthValidator = (val: string) => val?.length >= 2;
     // Promise 异步校验
     const asyncValidator = (val: string) => {
       return new Promise((resolve) => {
@@ -412,6 +431,7 @@ export default createDemo({
       validate,
       customValidator,
       customRulePropValidator,
+      nameLengthValidator,
       asyncValidator,
       customBlurValidate,
       submit,

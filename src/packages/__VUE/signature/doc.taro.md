@@ -9,7 +9,7 @@
 ``` javascript
 import { createApp } from 'vue';
 // vue
-import { Signature} from '@nutui/nutui';
+import { Signature} from '@nutui/nutui-taro';
 
 const app = createApp();
 app.use(Signature);
@@ -17,20 +17,21 @@ app.use(Signature);
 ```
     
     
-## 代码演示
  
 ### 修改颜色和签字粗细
 
 ```html
 <div class="demo">
-    <nut-signature
-      :lineWidth="lineWidth"
-      :strokeStyle="strokeStyle"
-      @confirm="confirm"
-      @clear="clear"
-    />
-  </div>
-setup() {
+  <nut-signature
+    :lineWidth="lineWidth"
+    :strokeStyle="strokeStyle"
+    @confirm="confirm"
+    @clear="clear"
+  ></nut-signature>
+</div>
+<script>
+export default {
+  setup() {
     const state = reactive({
       lineWidth: 4,
       strokeStyle: 'green',
@@ -57,6 +58,8 @@ setup() {
     };
     return { ...state, confirm, clear };
   }
+}
+</script>
 ```
     
 ## API
@@ -71,7 +74,7 @@ setup() {
 | type | 图片格式 | String | 'png'
 | un-support-tpl | 不支持Canvas情况下的展示文案 | String | '对不起，当前浏览器不支持Canvas，无法使用本控件！'
 
-## Event
+### Events
 
 | 字段 | 说明 | 回调参数 
 |----- | ----- | ----- 

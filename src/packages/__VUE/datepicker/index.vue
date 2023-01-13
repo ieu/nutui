@@ -9,9 +9,11 @@
     @change="changeHandler"
     :title="title"
     @confirm="confirm"
-    :isWrapTeleport="isWrapTeleport"
+    :teleportDisable="teleportDisable"
     :threeDimensional="threeDimensional"
     :swipeDuration="swipeDuration"
+    :safeAreaInsetBottom="safeAreaInsetBottom"
+    :destroyOnClose="destroyOnClose"
   >
     <template #top>
       <slot name="top"></slot>
@@ -23,15 +25,15 @@
 import { toRefs, watch, computed, reactive, onBeforeMount } from 'vue';
 import type { PropType } from 'vue';
 import Picker from '../picker/index.vue';
-import { popupProps } from '../popup/index.vue';
+import { popupProps } from '../popup/props';
 import { PickerOption } from '../picker/types';
 import { createComponent } from '@/packages/utils/create';
-import { padZero } from './utils';
+import { padZero, isDate as isDateU } from '@/packages/utils/util';
 const { componentName, create, translate } = createComponent('datepicker');
 
 const currentYear = new Date().getFullYear();
 function isDate(val: Date): val is Date {
-  return Object.prototype.toString.call(val) === '[object Date]' && !isNaN(val.getTime());
+  return isDateU(val) && !isNaN(val.getTime());
 }
 
 const zhCNType: {
@@ -249,11 +251,11 @@ export default create({
           formatDate.push(item);
         });
         if (props.type == 'month-day' && formatDate.length < 3) {
-          formatDate.unshift(new Date(props.modelValue || props.minDate || props.maxDate).getFullYear());
+          formatDate.unshift(new Date(state.currentDate || props.minDate || props.maxDate).getFullYear());
         }
 
         if (props.type == 'year-month' && formatDate.length < 3) {
-          formatDate.push(new Date(props.modelValue || props.minDate || props.maxDate).getDate());
+          formatDate.push(new Date(state.currentDate || props.minDate || props.maxDate).getDate());
         }
 
         const year = Number(formatDate[0]);
@@ -343,7 +345,21 @@ export default create({
     watch(
       () => props.modelValue,
       (value) => {
-        state.currentDate = formatValue(value);
+        const newValues = formatValue(value);
+        const isSameValue = JSON.stringify(newValues) === JSON.stringify(state.currentDate);
+        if (!isSameValue) {
+          state.currentDate = newValues;
+        }
+      }
+    );
+
+    watch(
+      () => state.currentDate,
+      (newValues) => {
+        const isSameValue = JSON.stringify(newValues) === JSON.stringify(props.modelValue);
+        if (!isSameValue) {
+          emit('update:modelValue', newValues);
+        }
       }
     );
 

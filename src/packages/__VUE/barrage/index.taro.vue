@@ -1,6 +1,19 @@
 <template>
   <view class="dmBody" :class="classes">
-    <div ref="dmContainer" class="dmContainer slotContainer" v-if="$slots.default">
+    <div ref="dmContainer" :class="['dmContainer', $slots.default && 'slotContainer']">
+      <div :class="['slotBody', 'slotBody' + classTime]">
+        <!-- <slot></slot> -->
+        <view
+          v-for="(item, index) of danmuList"
+          :key="'danmu' + index"
+          :class="['dmitem', 'dmitem' + index, 'move']"
+          :style="styleList[index]"
+        >
+          {{ item.length > 8 ? item.substr(0, 8) + '...' : item }}
+        </view>
+      </div>
+    </div>
+    <!-- <div ref="dmContainer" class="dmContainer slotContainer" v-if="$slots.default">
       <slot></slot>
       <view
         v-for="(item, index) of danmuListSlots"
@@ -10,8 +23,8 @@
       >
         {{ item.length > 8 ? item.substr(0, 8) + '...' : item }}
       </view>
-    </div>
-    <view class="dmContainer" id="dmContainer" v-else>
+    </div> -->
+    <!-- <view class="dmContainer" id="dmContainer">
       <view
         v-for="(item, index) of danmuList"
         :key="'danmu' + index"
@@ -20,7 +33,7 @@
       >
         {{ item.length > 8 ? item.substr(0, 8) + '...' : item }}
       </view>
-    </view>
+    </view> -->
   </view>
 </template>
 <script lang="ts">
@@ -41,7 +54,7 @@ export default create({
     },
     speeds: {
       type: Number,
-      default: 800
+      default: 2000
     },
     rows: {
       type: Number,
@@ -59,6 +72,8 @@ export default create({
   emits: ['click'],
 
   setup(props, { slots }) {
+    const classTime = new Date().getTime();
+
     const slotDefault = !!useSlots().default;
 
     const timeId = ref(new Date().getTime());
@@ -78,11 +93,11 @@ export default create({
 
     onMounted(() => {
       if (slotDefault) {
-        danmuList.value = slots?.default?.();
-        runStep();
-      } else {
-        runStep();
+        const list = document.getElementsByClassName('slotBody' + classTime)[0].getElementsByClassName('dmitem');
+        let childrens = list?.[0]?.children || [];
+        danmuList.value = childrens;
       }
+      runStep();
     });
 
     onUnmounted(() => {
@@ -123,39 +138,18 @@ export default create({
     };
 
     const runStep = () => {
-      danmuList.value.forEach((item, index: number) => {
-        let el = danmuList.value[index]?.el;
-        if (!el) {
-          danmuListSlots.value.push(item);
-          let l = slotDefault ? String(danmuList.value.length) : '';
-          let s = l + danmuListSlots.value.indexOf(item);
-          getNode(Number(s));
-        } else {
-          if (el?.classList.contains('dmitem')) {
-            el.classList.remove('dmitem');
-          }
-          if (el?.classList.contains('dmitem' + index)) {
-            el.classList.remove('dmitem' + index);
-          }
-          if (slotDefault && el) {
-            if (el?.classList.contains('move')) {
-              el.classList.remove('move');
-            }
-            el.classList.add('.move');
-          }
-          el.classList.add('.dmitem .dmitem' + index);
-          getNode(index);
-        }
+      danmuList.value.forEach((item: any, index: number) => {
+        getNode(index);
       });
     };
-    const distance = ref('0');
+    // const distance = ref('0');
     let styleList: any[] = reactive([]);
     const styleInfo = (index: number, nodeTop: string, width: number) => {
       // let n = Math.floor(Math.random() * (10 - 5)) + 5;
       let timeIndex = index - rows.value > 0 ? index - rows.value : 0;
       let list = styleList;
       let time = list[timeIndex] ? Number(list[timeIndex]['--time']) : 0;
-      distance.value = '-' + (speeds / 1000) * 200 + '%';
+      // distance.value = '-' + (speeds / 1000) * 200 + '%';
 
       let obj = {
         top: nodeTop,
@@ -173,26 +167,7 @@ export default create({
       }
     };
 
-    return { classes, danmuList, add, styleList, distance, danmuListSlots };
+    return { classTime, classes, danmuList, add, styleList, danmuListSlots };
   }
 });
 </script>
-
-<style lang="scss">
-@keyframes moving {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(v-bind('distance'));
-  }
-}
-@-webkit-keyframes moving {
-  from {
-    -webkit-transform: translateX(100%);
-  }
-  to {
-    transform: translateX(v-bind('distance'));
-  }
-}
-</style>

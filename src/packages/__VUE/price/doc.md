@@ -19,7 +19,7 @@ app.use(Price);
 ```
 
 
-### 基本用法 small normal large
+### 基础用法 small normal large
 
 :::demo
 
@@ -40,6 +40,19 @@ app.use(Price);
 ``` html
 <template>
     <nut-price :price="8888" decimal-digits="0" size="normal" :need-symbol="true" :thousands="true" />
+</template>
+```
+
+:::
+
+
+### 划线价
+
+:::demo
+
+``` html
+<template>
+    <nut-price :price="8888" decimal-digits="0" size="normal" :need-symbol="true" :thousands="true" strike-through />
 </template>
 ```
 
@@ -105,7 +118,7 @@ app.use(Price);
 </script>
 ```
 :::
-
+## API
 ### Props
 
 | 字段           | 说明                                    | 类型    | 默认值 |
@@ -117,3 +130,4 @@ app.use(Price);
 | thousands      | 是否按照千分号形式显示                    | Boolean          | false  |
 | position       | 符号显示在价格前或者后，`before`、`after`  | String           | before |
 | size           | 价格尺寸，`large`、`normal`、`small`     | String           | large |
+| strike-through`v3.3.1`          | 是否展示划线价    | Boolean           | false |

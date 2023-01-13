@@ -185,12 +185,18 @@ export default create({
     endDate: {
       type: String,
       default: Utils.getDay(365)
+    },
+    firstDayOfWeek: {
+      type: Number,
+      default: 0
     }
   },
   emits: ['choose', 'update', 'close', 'select'],
 
   setup(props, { emit, slots }) {
-    const weeks = ref(translate('weekdays'));
+    // 新增：自定义周起始日
+    const weekdays = translate('weekdays');
+    const weeks = ref([...weekdays.slice(props.firstDayOfWeek, 7), ...weekdays.slice(0, props.firstDayOfWeek)]);
     // element refs
     const months = ref<null | HTMLElement>(null);
     const monthsPanel = ref<null | HTMLElement>(null);
@@ -319,7 +325,7 @@ export default create({
         days[4] = Utils.getWhatDay(+days[0], +days[1], +days[2]);
         if (type == 'multiple') {
           if (state.currDate.length > 0) {
-            let hasIndex: number = NaN;
+            let hasIndex: number | undefined = undefined;
             (state.currDate as StringArr).forEach((item: string, index: number) => {
               if (item == days[3]) {
                 hasIndex = index;
@@ -328,7 +334,7 @@ export default create({
             if (isFirst) {
               state.chooseData.push([...days]);
             } else {
-              if (hasIndex !== NaN) {
+              if (hasIndex !== undefined) {
                 (state.currDate as StringArr).splice(hasIndex, 1);
                 state.chooseData.splice(hasIndex, 1);
               } else {
@@ -411,6 +417,8 @@ export default create({
     };
     // 获取上一个月的最后一周天数，填充当月空白
     const getPreDaysStatus = (days: number, type: string, dateInfo: Dateprop, preCurrMonthDays: number) => {
+      // 新增：自定义周起始日
+      days = days - props.firstDayOfWeek;
       // 修复：当某个月的1号是周日时，月份下方会空出来一行
       let { year, month } = dateInfo;
       if (type == 'prev' && days >= 7) {

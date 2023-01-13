@@ -15,8 +15,10 @@
       v-model:visible="show"
       :columns="columns"
       title="城市选择"
+      :safeAreaInsetBottom="true"
       @change="change"
       @confirm="(options) => confirm('index', options)"
+      :showCancelText="false"
     ></nut-picker>
 
     <h2>默认选中项</h2>
